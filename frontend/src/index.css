@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-50 text-gray-900 antialiased;
+  /* Beautiful soft gradient background */
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(140, 100%, 95%, 1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(160, 100%, 95%, 1) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Glassmorphism utilities */
+.glass-panel {
+  @apply bg-white/80 backdrop-blur-lg border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)];
+}
+
+.glass-card {
+  @apply bg-white/70 backdrop-blur-md border border-white/50 shadow-sm hover:shadow-md transition-all duration-300;
+}
+
+/* Custom styles to hide scrollbar but keep functionality */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

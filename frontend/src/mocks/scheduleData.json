@@ -1,0 +1,22 @@
+[
+  {
+    "date": "2026-04-28",
+    "prayers": {
+      "Subuh": { "time": "04:15", "muadzin": "Akbar" },
+      "Dhuhur": { "time": "11:32", "muadzin": "" },
+      "Ashar": { "time": "14:50", "muadzin": "Budi" },
+      "Maghrib": { "time": "17:28", "muadzin": "" },
+      "Isya": { "time": "18:38", "muadzin": "" }
+    }
+  },
+  {
+    "date": "2026-04-29",
+    "prayers": {
+      "Subuh": { "time": "04:15", "muadzin": "" },
+      "Dhuhur": { "time": "11:31", "muadzin": "Cipto" },
+      "Ashar": { "time": "14:50", "muadzin": "" },
+      "Maghrib": { "time": "17:28", "muadzin": "" },
+      "Isya": { "time": "18:38", "muadzin": "Dodi" }
+    }
+  }
+]
