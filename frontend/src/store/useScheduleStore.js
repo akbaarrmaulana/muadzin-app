@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabaseClient';
 import { getTodayStr } from '../utils/dateUtils';
+import { schedulePrayerReminder, cancelPrayerReminder } from '../utils/localNotifications';
 
 const useScheduleStore = create((set, get) => ({
   schedules: [],
@@ -32,6 +33,26 @@ const useScheduleStore = create((set, get) => ({
       console.error("Error fetching schedules:", error);
     } else {
       set({ schedules: data || [] });
+      
+      // Auto-sync notifications with a small delay for stability
+      setTimeout(() => {
+        try {
+          const authData = localStorage.getItem('auth-storage');
+          if (authData && data) {
+            const parsed = JSON.parse(authData);
+            const userId = parsed.state?.user?.id;
+            if (userId) {
+              data.forEach(s => {
+                if (s.muadzin_id === userId) {
+                  schedulePrayerReminder(s);
+                }
+              });
+            }
+          }
+        } catch (e) {
+          console.error("Auto-sync error:", e);
+        }
+      }, 500);
     }
     set({ loading: false });
   },
@@ -67,6 +88,12 @@ const useScheduleStore = create((set, get) => ({
     if (error) {
       alert("Gagal mengambil jadwal: " + error.message);
     } else {
+      // Schedule notification
+      const schedule = get().schedules.find(s => s.id === scheduleId);
+      if (schedule) {
+        await schedulePrayerReminder(schedule);
+      }
+
       set({ modalConfig: { isOpen: false, pendingData: null } });
       get().fetchSchedules(get().selectedDate);
     }
@@ -82,6 +109,9 @@ const useScheduleStore = create((set, get) => ({
     if (error) {
       alert("Gagal membatalkan jadwal: " + error.message);
     } else {
+      // Cancel scheduled notification
+      await cancelPrayerReminder(scheduleId);
+
       get().fetchSchedules(get().selectedDate);
     }
   },

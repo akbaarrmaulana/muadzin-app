@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MuadzinApp</string>
+    <string name="title_activity_main">MuadzinApp</string>
+    <string name="package_name">com.muadzin.app</string>
+    <string name="custom_url_scheme">com.muadzin.app</string>
+</resources>

@@ -49,15 +49,6 @@ const Dashboard = () => {
               <span className="text-sm font-bold text-gray-800">{user?.user_metadata?.name || user?.email}</span>
             </div>
           </div>
-          <button
-            onClick={() => subscribeUserToPush(user?.id)}
-            className="flex items-center space-x-2 bg-gradient-to-r from-mosque-500 to-mosque-600 text-white px-3 py-2 rounded-xl font-bold hover:shadow-lg hover:shadow-mosque-500/30 transition-all active:scale-95 shadow-sm"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-            <span className="text-xs">Aktifkan Notifikasi</span>
-          </button>
         </div>
         <DateNavigator />
         <ScheduleList />
@@ -67,10 +58,19 @@ const Dashboard = () => {
   );
 };
 
+import { requestNotificationPermission } from './utils/localNotifications';
+
 function App() {
   const { setUser, setSession, setLoading } = useAuthStore();
 
   useEffect(() => {
+    // Request notification permissions
+    const checkPermissions = async () => {
+      const granted = await requestNotificationPermission();
+      console.log("Notification permission granted:", granted);
+    };
+    checkPermissions();
+
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session?.user) {
         const { data: profile } = await supabase.from('muadzins').select('name').eq('id', session.user.id).single();

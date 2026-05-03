@@ -33,12 +33,8 @@ export default function ScheduleList() {
   // Urutan shalat yang diinginkan
   const prayerOrder = ['Subuh', 'Dhuhur', 'Ashar', 'Maghrib', 'Isya'];
 
-  // Format tanggal Hijriyah
-  const hijriDate = new Intl.DateTimeFormat('id-TN-u-ca-islamic', {
-    day: 'numeric', 
-    month: 'long', 
-    year: 'numeric'
-  }).format(new Date(selectedDate)).concat(' H');
+  // Mengambil tanggal Hijriyah langsung dari database
+  const hijriDate = schedules[0]?.hijri_date || "Tanggal Hijriyah";
 
   return (
     <div className="flex-1 p-4 overflow-y-auto pb-20">
